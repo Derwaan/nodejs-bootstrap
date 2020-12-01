@@ -1,0 +1,190 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Node.js Bootstrap",
+    "version": "1.0.0",
+    "description": "Example of Node.js service.",
+    "contact": {
+      "email": "julien.gomez@letec.be"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:{port}/",
+      "variables": {
+        "port": {
+          "default": "3000"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/_status": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Status of the service.",
+        "responses": {
+          "200": {
+            "description": "Retrieve API status and information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "env": {
+                      "type": "string",
+                      "description": "Current environment of the M-Ticketing API.",
+                      "example": "dev"
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "Current version of the M-Ticketing API.",
+                      "example": "1.0.0"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/_health": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Healthcheck of the service.",
+        "responses": {
+          "200": {
+            "description": "The service is healthy.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "uptime": {
+                      "type": "number",
+                      "description": "Uptime of the service."
+                    },
+                    "timestamp": {
+                      "type": "number",
+                      "description": "Current timestamp on the server."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Current status of the service.",
+                      "example": "OK"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The service is unhealthy.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "uptime": {
+                      "type": "number",
+                      "description": "Uptime of the service."
+                    },
+                    "timestamp": {
+                      "type": "number",
+                      "description": "Current timestamp on the server."
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Current status of the service.",
+                      "example": "KO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/example": {
+      "$ref": "#/paths/~1v1~1example"
+    },
+    "/v1/example": {
+      "post": {
+        "tags": [
+          "Example"
+        ],
+        "summary": "Create a new Example.",
+        "requestBody": {
+          "description": "The Example that need to be created.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "description": "The example value.\n",
+                    "example": "example"
+                  }
+                },
+                "required": [
+                  "example"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "A new Example was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Example"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request. Some information are missing or incorrect."
+      }
+    },
+    "schemas": {
+      "Example": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "integer",
+            "description": "The Example ID."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "The date at which the Example was created in the database. It uses the ISO format.\n",
+            "example": "2020-10-10T10:23:22Z"
+          },
+          "example": {
+            "type": "string",
+            "description": "The example value",
+            "example": "example"
+          }
+        }
+      }
+    }
+  }
+}
